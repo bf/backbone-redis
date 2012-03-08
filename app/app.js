@@ -66,30 +66,30 @@ model = bbRedis.schema()
     // processed, allowing us to do validation, or anything
     // else to ensure data integrity, ect...
     .pre('create', function(next, model, options, cb) {
-        console.log('pre-create');
+        console.log('todo-pre-create');
         next(model, options, cb);
     })
     .pre('read', function(next, model, options, cb) {
-        console.log('pre-read');
+        console.log('todo-pre-read');
         next(model, options, cb);
     })
     .pre('update', function(next, model, options, cb) {
-        console.log('pre-update');
+        console.log('todo-pre-update');
         next(model, options, cb);
     })
     .pre('delete', function(next, model, options, cb) {
-        console.log('pre-delete');
+        console.log('todo-pre-delete');
         next(model, options, cb);
     })
 
     // Subscribe events will pass in the current client's
     // socket connection instead of the model
     .pre('subscribe', function(next, socket, options, cb) {
-        console.log('pre-subscribe');
+        console.log('todo-pre-subscribe');
         next(socket, options, cb);
     })
     .pre('unsubscribe', function(next, socket, options, cb) {
-        console.log('pre-unsubscribe');
+        console.log('todo-pre-unsubscribe');
         next(socket, options, cb);
     });
 
