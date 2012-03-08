@@ -1,0 +1,6 @@
+
+Web client powered by backbone
+
+connected via redis pubsub to python backend
+
+For now, all changes go python -> redis -> webcli, webcli is purely a realtime view into what the python backend is doing.
