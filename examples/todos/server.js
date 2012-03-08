@@ -1,7 +1,6 @@
 
 // Application Server
 // ------------------
-require.paths.unshift('../../lib');
 
 // Project dependencies
 var express    = require('express'),
@@ -83,7 +82,7 @@ model = bbRedis.schema()
         next(model, options, cb);
     })
 
-    // Subscribe events will pass in the current client's 
+    // Subscribe events will pass in the current client's
     // socket connection instead of the model
     .pre('subscribe', function(next, socket, options, cb) {
         console.log('todo-pre-subscribe');

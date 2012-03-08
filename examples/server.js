@@ -2,8 +2,6 @@
 // backbone-redis server to server demonstration
 // ---------------------------------------------
 
-require.paths.unshift('../../lib');
-
 // Project dependencies
 var express    = require('express'),
     Redis      = require('redis'),
@@ -50,11 +48,11 @@ server.get('/', function(req, res) {
     res.render(__dirname + '/index.html');
 });
 
-// Configure the package, explicitly passing in all `redis` 
-// and `socket.io` references, allowing us to configure the 
-// clients before hand. The `listener` will be the socket 
-// event that all handlers will be listening and broadcasting 
-// to. The `safeMode` flag will tell the package to only act 
+// Configure the package, explicitly passing in all `redis`
+// and `socket.io` references, allowing us to configure the
+// clients before hand. The `listener` will be the socket
+// event that all handlers will be listening and broadcasting
+// to. The `safeMode` flag will tell the package to only act
 // upon model `types` that have a registered schema for them.
 bbRedis.config({
     io        : io,
@@ -67,7 +65,7 @@ bbRedis.config({
     showError : true
 });
 
-// Create a new schema with `backbone-redis`, which will add 
+// Create a new schema with `backbone-redis`, which will add
 // in `hook` support for more fine-grained control
 var model = bbRedis.schema()
 
@@ -91,7 +89,7 @@ var model = bbRedis.schema()
         next(model, options, cb);
     })
 
-    // Subscribe events will pass in the current client's 
+    // Subscribe events will pass in the current client's
     // socket connection instead of the model
     .pre('subscribe', function(next, socket, options, cb) {
         console.log('todo-pre-subscribe');
@@ -102,10 +100,10 @@ var model = bbRedis.schema()
         next(socket, options, cb);
     });
 
-// Register the schema with `backbone-redis`, giving it the 
+// Register the schema with `backbone-redis`, giving it the
 // same name as the model `type` attribute
 bbRedis.model('todo', model);
-    
+
 
 var Todo = Backbone.Model.extend({
 
@@ -149,7 +147,7 @@ var TodoList = Backbone.Collection.extend({
 var Todos = new TodoList;
 
 Todos
-    // Bind to the basic CRUD events, just so we can see that 
+    // Bind to the basic CRUD events, just so we can see that
     // the events are in fact propegating correctly
     .bind('add', function(todo) {
         console.log('todo added');
@@ -164,7 +162,7 @@ Todos
         console.log('todo changed');
     })
 
-    // Bind to the pubsub events, these are custom events that 
+    // Bind to the pubsub events, these are custom events that
     // are triggered by `backbone-redis` for support
     .bind('subscribe', function(data) {
         console.log('todo subscribed', data);
@@ -173,33 +171,33 @@ Todos
         console.log('todo unsubscribed', data);
     });
 
-// Fetch the models, issuing a `read` event trough the model 
-// or collections `sync` method that has been overriden, or 
-// `Backbone.sync` if you have set it globally, this does not 
+// Fetch the models, issuing a `read` event trough the model
+// or collections `sync` method that has been overriden, or
+// `Backbone.sync` if you have set it globally, this does not
 // require a subscription to be used
 Todos.fetch();
 
-// It is not necessary to be `subscribed` to a given model 
-// or collection to create a new one, however, the event 
-// will be published through `redis` and we will receive the 
+// It is not necessary to be `subscribed` to a given model
+// or collection to create a new one, however, the event
+// will be published through `redis` and we will receive the
 // update that all other clients will get
 Todos.create({
     content: 'server',
     done : false
 });
 
-// Subscribe to the collection, telling `backbone-redis` to 
+// Subscribe to the collection, telling `backbone-redis` to
 // inform us of all changes made to models with the given `type`,
-// you can pass in some `options` as the first parameter to 
-// specify the `type` or `channel` if you want. Of course these 
-// will automatically be calculated if left blank. You can also 
-// pass in a `override` boolean to force a new subscription, 
+// you can pass in some `options` as the first parameter to
+// specify the `type` or `channel` if you want. Of course these
+// will automatically be calculated if left blank. You can also
+// pass in a `override` boolean to force a new subscription,
 // since by default it will only ever happen once per model `type`
 Todos.subscribe({}, function() {
     console.log('todos subscribed');
-    
-    // Create another model, this time we will receive the update, 
-    // used inside the `subscribe` callback to ensure that we are 
+
+    // Create another model, this time we will receive the update,
+    // used inside the `subscribe` callback to ensure that we are
     // in fact, subscribed to it
     Todos.create({
         content: 'subbed-server',
