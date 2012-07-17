@@ -28,7 +28,7 @@
     },
     "browserify" : "browser/index.js",
     "engines"    : {
-        "node" : ">= 0.6.6 < 0.6.6"
+        "node" : ">= 0.8.0"
     },
     "author" : {
         "name"  : "Beau Sorensen",
