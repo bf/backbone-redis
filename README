@@ -1,6 +1,6 @@
 
 Web client powered by backbone
-based on: https://github.com/sorensen/backbone-redis
+based on: https://github.com/Zenithar/backbone-redis
 
 connected via redis pubsub to python backend
 
