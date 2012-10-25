@@ -87,6 +87,7 @@
 
         //###process
         process : function(model, options) {
+            console.log("(bbRedis) process request", model, options);
             if (!options || !options.method) return;
             if (!options.method in methods) return;
             core[options.method](model, options);
@@ -100,6 +101,7 @@
         // get the model or collection based on channel
         // name or url to set or add the new data
         created : function(data, options) {
+            console.log("(bbRedis)  ******* STORE: ", Store);
             var model = Store[options.channel];
             // Model processing
             if (model instanceof Backbone.Model) {
@@ -141,7 +143,7 @@
         // security risk, when private channels are involved
         subscribed : function(data, options) {
             var model = Store[options.channel];
-            if (!options.silent) model.trigger('unsubscribe', options);
+            if (!options.silent) model.trigger('subscribe', options);
         },
 
         //###unsubscribed
